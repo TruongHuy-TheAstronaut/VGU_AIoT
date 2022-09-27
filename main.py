@@ -3,9 +3,9 @@
 import sys
 from Adafruit_IO import MQTTClient
 
-AIO_FEED_ID = ""
-AIO_USERNAME = ""
-AIO_KEY = ""
+AIO_FEED_ID = "sensor_1"
+AIO_USERNAME = "truonghuy"
+AIO_KEY = "aio_ZhsY634adhBskZU2muiYOjo5XAXk"
 
 def connected(client):
     print("Ket noi thanh cong ...")
