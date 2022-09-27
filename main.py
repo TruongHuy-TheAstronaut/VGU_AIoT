@@ -3,13 +3,14 @@
 import sys
 from Adafruit_IO import MQTTClient
 
-AIO_FEED_ID = "sensor_1"
+AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2"] #,
 AIO_USERNAME = "truonghuy"
-AIO_KEY = "aio_uHQd52OLony0POX7sRTalYx47wCQ"
+AIO_KEY = ""
 
 def connected(client):
     print("Ket noi thanh cong ...")
-    client.subscribe(AIO_FEED_ID)
+    for topic in AIO_FEED_ID:
+        client.subscribe(topic)
 
 def subscribe(client , userdata , mid , granted_qos):
     print("Subscribe thanh cong ...")
