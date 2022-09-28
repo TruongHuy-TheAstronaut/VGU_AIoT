@@ -1,11 +1,12 @@
 # print("Hello The Brave New World")
 
 import sys
+import simple_ai
 from Adafruit_IO import MQTTClient
 
-AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2"] #,
+AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2", "vision_detection"] #,
 AIO_USERNAME = "truonghuy"
-AIO_KEY = ""
+AIO_KEY = "aio_hEMf746tJFCYZivUtNsbx2rsmqA9"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -20,7 +21,7 @@ def disconnected(client):
     sys.exit (1)
 
 def message(client , feed_id , payload):
-    print("Nhan du lieu: " + payload)
+    print("Nhan du lieu" + feed_id + " : "+ payload)
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
 client.on_connect = connected
@@ -31,4 +32,7 @@ client.connect()
 client.loop_background()
 
 while True:
-    pass
+    time.sleep(5)
+    image_capture()
+    ai_result = image_detector()
+    client.publish("vision_detector", ai_result)
