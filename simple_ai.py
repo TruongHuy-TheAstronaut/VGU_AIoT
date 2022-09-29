@@ -55,8 +55,9 @@ def image_detector():
     print("AI Result: ", data[max_index])
     return data[max_index]
 
-while True:
-    time.sleep(5)
-    image_capture()
-    ai_result = image_detector()
-    # client.publish("vision_detector", ai_result)
+"""Should be delete, only functions in the module, no while loop"""
+# while True:
+#     time.sleep(5)
+#     image_capture()
+#     ai_result = image_detector()
+#     # client.publish("vision_detector", ai_result)

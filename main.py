@@ -1,12 +1,13 @@
-# print("Hello The Brave New World")
+print("Hello The Brave New World")
 
 import sys
-import simple_ai
 from Adafruit_IO import MQTTClient
+from simple_ai import *
+import time
 
-AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2", "vision_detection"] #,
+AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2", "vision_detection"]
 AIO_USERNAME = "truonghuy"
-AIO_KEY = "aio_hEMf746tJFCYZivUtNsbx2rsmqA9"
+AIO_KEY = "aio_yHGu71mMlfihCsIyQ4VzF8XLndZQ"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -32,7 +33,8 @@ client.connect()
 client.loop_background()
 
 while True:
+    pass
     time.sleep(5)
     image_capture()
     ai_result = image_detector()
-    client.publish("vision_detector", ai_result)
+    client.publish("vision_detection", ai_result)
