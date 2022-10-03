@@ -7,7 +7,7 @@ import time
 
 AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2", "vision_detection"]
 AIO_USERNAME = "truonghuy"
-AIO_KEY = "aio_yHGu71mMlfihCsIyQ4VzF8XLndZQ"
+AIO_KEY = ""
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -33,7 +33,6 @@ client.connect()
 client.loop_background()
 
 while True:
-    pass
     time.sleep(5)
     image_capture()
     ai_result = image_detector()

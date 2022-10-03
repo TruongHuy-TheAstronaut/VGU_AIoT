@@ -3,13 +3,12 @@ from keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
 import cv2
-import time
 
-
+# capture the cam
 cam = cv2.VideoCapture(0)
-
 # Load the model
 model = load_model('keras_model.h5')
+
 def image_capture():
     ret, frame = cam.read()
     cv2.imwrite("abc.png", frame)
@@ -55,7 +54,7 @@ def image_detector():
     print("AI Result: ", data[max_index])
     return data[max_index]
 
-"""Should be delete, only functions in the module, no while loop"""
+"""Should be delete, only functions in the module, not the while loop"""
 # while True:
 #     time.sleep(5)
 #     image_capture()
