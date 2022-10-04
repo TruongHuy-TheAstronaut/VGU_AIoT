@@ -49,7 +49,7 @@ def image_detector():
             max_index = i
     print(max_index, max_confidence)
 
-    file = open("labels.txt",encoding="utf8")
+    file = open("labels.txt", encoding="utf8")
     data = file.read().split("\n")
     print("AI Result: ", data[max_index])
     return data[max_index]

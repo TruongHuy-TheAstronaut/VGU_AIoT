@@ -2,8 +2,8 @@ print("Hello The Brave New World")
 
 import sys
 from Adafruit_IO import MQTTClient
-from simple_ai import *
-import time
+# from AI.simple_ai import *
+from IoT.physical import *
 
 AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2", "vision_detection"]
 AIO_USERNAME = "truonghuy"
@@ -23,17 +23,27 @@ def disconnected(client):
 
 def message(client , feed_id , payload):
     print("Nhan du lieu" + feed_id + " : "+ payload)
+    state = True if (str(payload) == "1") else False
+    # let state = (str(payload) == "1") ? True : False
+    if feed_id == "actuator_1":
+        setDevice1(state)
+    if feed_id == "actuator_2":
+        setDevice2(state)
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
-client.on_connect = connected
+client.on_connect = connected # passing function as object
 client.on_disconnect = disconnected
 client.on_message = message
 client.on_subscribe = subscribe
-client.connect()
-client.loop_background()
+client.connect() # call connect()
+client.loop_background() # call loop_background()
 
 while True:
-    time.sleep(5)
-    image_capture()
-    ai_result = image_detector()
-    client.publish("vision_detection", ai_result)
+    pass
+
+# #Simple AI Code
+# while True:
+#     time.sleep(5)
+#     image_capture()
+#     ai_result = image_detector()
+#     client.publish("vision_detection", ai_result)
