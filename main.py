@@ -7,7 +7,7 @@ from IoT.physical import *
 
 AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2", "vision_detection"]
 AIO_USERNAME = "truonghuy"
-AIO_KEY = "aio_UCMX70XwlAPnumsp4BVKNjcu8jvL"
+AIO_KEY = ""
 
 def connected(client):
     print("Ket noi thanh cong ...")
