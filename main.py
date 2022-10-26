@@ -3,11 +3,11 @@ print("Hello The Brave New World")
 import sys
 from Adafruit_IO import MQTTClient
 # from AI.simple_ai import *
-from IoT.physical import *
+from IoT.physical_2 import *
 
-AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2", "vision_detection"]
+AIO_FEED_ID = ["sensor-1", "sensor-2", "sensor-3", "actuator-1", "actuator-2", "vision-detection"]
 AIO_USERNAME = "truonghuy"
-AIO_KEY = ""
+AIO_KEY = "aio_NfpI49RKlhHiqlriMQ0LHSPLwBfn"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -22,12 +22,12 @@ def disconnected(client):
     sys.exit (1)
 
 def message(client , feed_id , payload):
-    print("Nhan du lieu" + feed_id + " : "+ payload)
+    # print("Nhan du lieu" + feed_id + " : "+ payload)
     state = True if (str(payload) == "1") else False
     # let state = (str(payload) == "1") ? True : False
-    if feed_id == "actuator_1":
+    if feed_id == "actuator-1":
         setDevice1(state)
-    if feed_id == "actuator_2":
+    if feed_id == "actuator-2":
         setDevice2(state)
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
@@ -40,6 +40,11 @@ client.loop_background() # call loop_background()
 
 while True:
     pass
+    temperature = readTemperature()
+    moisture = readMoisture()
+    print(temperature, moisture)
+    client.publish("sensor-1", temperature/100)
+    client.publish("sensor-2", moisture/100)
 
 # #Simple AI Code
 # while True:
