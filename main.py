@@ -3,7 +3,7 @@ print("Hello The Brave New World")
 import sys
 from Adafruit_IO import MQTTClient
 # from AI.simple_ai import *
-from IoT.physical_2 import *
+from IoT.physical import *
 
 AIO_FEED_ID = ["sensor-1", "sensor-2", "sensor-3", "actuator-1", "actuator-2", "vision-detection"]
 AIO_USERNAME = "truonghuy"
