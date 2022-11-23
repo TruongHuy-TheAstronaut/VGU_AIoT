@@ -1,13 +1,14 @@
-print("Hello The Brave New World")
+# print("Hello The Brave New World")
 
 import sys
 from Adafruit_IO import MQTTClient
-# from AI.simple_ai import *
-from IoT.physical import *
-
-AIO_FEED_ID = ["sensor-1", "sensor-2", "sensor-3", "actuator-1", "actuator-2", "vision-detection"]
+from simple_AI import *
+from rasberry_physical import *
+import schedule
+import time
+AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2","actuator_3"] #,
 AIO_USERNAME = "truonghuy"
-AIO_KEY = "aio_NfpI49RKlhHiqlriMQ0LHSPLwBfn"
+AIO_KEY = "aio_gfWr45d8qH5AiuJ6wU373U5IfijK"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -22,33 +23,35 @@ def disconnected(client):
     sys.exit (1)
 
 def message(client , feed_id , payload):
-    # print("Nhan du lieu" + feed_id + " : "+ payload)
-    state = True if (str(payload) == "1") else False
-    # let state = (str(payload) == "1") ? True : False
-    if feed_id == "actuator-1":
-        setDevice1(state)
-    if feed_id == "actuator-2":
-        setDevice2(state)
+    print("Nhan du lieu: " + payload)
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
-client.on_connect = connected # passing function as object
+client.on_connect = connected
 client.on_disconnect = disconnected
 client.on_message = message
 client.on_subscribe = subscribe
-client.connect() # call connect()
-client.loop_background() # call loop_background()
+client.connect()
+client.loop_background()
 
+
+# schedule.every().day.at("6:00").do(setDevice3(False))
+# schedule.every().day.at("17:00").do(setDevice3(True))
 while True:
-    pass
-    temperature = readTemperature()
-    moisture = readMoisture()
-    print(temperature, moisture)
-    client.publish("sensor-1", temperature/100)
-    client.publish("sensor-2", moisture/100)
+    ai_result = person_detector()
+    if(person_detector()=="Person"):
+        print("AI_Output:", ai_result)
+        client.publish("ai", ai_result)
 
-# #Simple AI Code
-# while True:
-#     time.sleep(5)
-#     image_capture()
-#     ai_result = image_detector()
-#     client.publish("vision_detection", ai_result)
+        bongden1 = setDevice1(True)
+        client.publish("actuator_1", bongden1)
+        bongden2 = setDevice2(True)
+        client.publish("actuator_2", bongden2)
+    else:
+        print("AI_Output:", ai_result)
+        client.publish("ai", ai_result)
+        time.sleep(300)
+        bongden1 = setDevice1(False)
+        client.publish("actuator_1", bongden1)
+        bongden2 = setDevice2(False)
+        client.publish("actuator_2", bongden2)
+    # schedule.run_pending()
