@@ -1,11 +1,13 @@
 package com.vgu.iotandroiddashboard;
 
+import static com.vgu.iotandroiddashboard.R.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -24,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
         startMQTT();
 
-        txtTemp = findViewById(R.id.txtTemperature);    // the pointer point to the object in the XML
-        txtHumid = findViewById(R.id.txtHumidity);      // need to be put after the setContentView() function
-        btnLED = findViewById(R.id.btnLED);
-        btnPUMP = findViewById(R.id.btnPUMP);
+        txtTemp = findViewById(id.txtTemperature);    // the pointer point to the object in the XML
+        txtHumid = findViewById(id.txtHumidity);      // need to be put after the setContentView() function
+        btnLED = findViewById(id.btnLED);
+        btnPUMP = findViewById(id.btnPUMP);
         btnLED.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
