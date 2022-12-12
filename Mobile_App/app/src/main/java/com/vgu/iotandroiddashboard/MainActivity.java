@@ -21,7 +21,7 @@ import java.nio.charset.Charset;
 public class MainActivity extends AppCompatActivity {
     MQTTHelper mqttHelper;
     TextView txtTemp, txtHumid; // a pointer ?
-    ToggleButton btnLED, btnPUMP;
+    Switch btnLED, btnPUMP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         txtHumid = findViewById(id.txtHumidity);      // need to be put after the setContentView() function
         btnLED = findViewById(id.btnLED);
         btnPUMP = findViewById(id.btnPUMP);
+
         btnLED.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

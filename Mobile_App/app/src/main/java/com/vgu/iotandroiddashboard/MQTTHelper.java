@@ -22,7 +22,7 @@ public class MQTTHelper {
 
     final String clientId = "232";    // random client ID, must be unique for each client, maybe generate from CPU-ID
     final String username = "truonghuy";
-    final String password = ""; //"aio_lHRX14Mn1uJVBe7yxLj1B50zYgNk" - The password to paste
+    final String password = "aio_aeHi32ZESsQWGUwdVpUQ0FCg0hn5"; //"" - The password to paste
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
