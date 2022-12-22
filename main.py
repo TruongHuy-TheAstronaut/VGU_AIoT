@@ -34,8 +34,8 @@ client.connect()
 client.loop_background()
 
 
-# schedule.every().day.at("6:00").do(setDevice3(False))
-# schedule.every().day.at("17:00").do(setDevice3(True))
+schedule.every().day.at("6:00").do(setDevice1(False))
+schedule.every().day.at("17:00").do(setDevice1(True))
 while True:
     ai_result = person_detector()
     if(person_detector()=="Person"):
@@ -44,14 +44,12 @@ while True:
 
         bongden1 = setDevice1(True)
         client.publish("actuator_1", bongden1)
-        bongden2 = setDevice2(True)
-        client.publish("actuator_2", bongden2)
+
     else:
         print("AI_Output:", ai_result)
         client.publish("ai", ai_result)
-        time.sleep(300)
+        time.sleep(120)
         bongden1 = setDevice1(False)
         client.publish("actuator_1", bongden1)
-        bongden2 = setDevice2(False)
-        client.publish("actuator_2", bongden2)
-    # schedule.run_pending()
+    time.sleep(3)
+    schedule.run_pending()
