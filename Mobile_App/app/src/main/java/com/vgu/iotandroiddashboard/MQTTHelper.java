@@ -25,7 +25,7 @@ public class MQTTHelper {
     final String username = "truonghuy";
 
     // No need to reset the key each time
-    byte[] decodedBytes = android.util.Base64.decode("YWlvX0N4U3U2NlA1dHpoSXVPeUlPZGJMU29acllRcWM=", android.util.Base64.DEFAULT);
+    byte[] decodedBytes = android.util.Base64.decode("YWlvX2ZPdXcyNjQ1RTZvQXBtaUpNZHlsSHNnYUhJZ3c=", android.util.Base64.DEFAULT);
     String pass1;
     {
         try {

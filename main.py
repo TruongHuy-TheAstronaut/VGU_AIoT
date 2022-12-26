@@ -8,7 +8,7 @@ from IoT.physical import *
 
 AIO_FEED_ID = ["sensor-1", "sensor-2", "sensor-3", "actuator-1", "actuator-2", "vision-detection"]
 AIO_USERNAME = "truonghuy"
-encoded_key = "YWlvX0N4U3U2NlA1dHpoSXVPeUlPZGJMU29acllRcWM="
+encoded_key = "YWlvX2ZPdXcyNjQ1RTZvQXBtaUpNZHlsSHNnYUhJZ3c="
 AIO_KEY = base64.b64decode(encoded_key)
 
 def connected(client):
