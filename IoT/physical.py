@@ -65,6 +65,7 @@ def readMoisture():
     time.sleep(5)
     return serial_read_data(ser)
 
+
 # while True:
 #     print(readTemperature())
 #     print(readMoisture())
