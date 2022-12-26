@@ -1,7 +1,6 @@
 package com.vgu.iotandroiddashboard;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -14,15 +13,28 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.io.UnsupportedEncodingException;
+
 
 public class MQTTHelper {
     public MqttAndroidClient mqttAndroidClient;
 
     public final String[] arrayTopics = {"truonghuy/feeds/sensor-1", "truonghuy/feeds/sensor-2", "truonghuy/feeds/actuator-1", "truonghuy/feeds/actuator-2"};
 
-    final String clientId = "232";    // random client ID, must be unique for each client, maybe generate from CPU-ID
+    final String clientId = "1234";    // random client ID, must be unique for each client, maybe generate from CPU-ID
     final String username = "truonghuy";
-    final String password = "aio_aeHi32ZESsQWGUwdVpUQ0FCg0hn5"; //"" - The password to paste
+
+    // No need to reset the key each time
+    byte[] decodedBytes = android.util.Base64.decode("YWlvX0N4U3U2NlA1dHpoSXVPeUlPZGJMU29acllRcWM=", android.util.Base64.DEFAULT);
+    String pass1;
+    {
+        try {
+            pass1 = new String(decodedBytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+    final String password = pass1; //"" - The password to paste
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
@@ -110,5 +122,4 @@ public class MQTTHelper {
             }
         }
     }
-
 }
