@@ -2,13 +2,15 @@
 
 import sys
 from Adafruit_IO import MQTTClient
-from simple_AI import *
+from AI.simple_AI import person_detector
 from rasberry_physical import *
 import schedule
+import base64
 import time
-AIO_FEED_ID = ["sensor_1", "sensor_2", "sensor_3", "actuator_1", "actuator_2","actuator_3"] #,
+AIO_FEED_ID = ["sensor-1", "sensor-2", "actuator-1", "actuator-2", "vision-detection"]
 AIO_USERNAME = "truonghuy"
-AIO_KEY = "aio_gfWr45d8qH5AiuJ6wU373U5IfijK"
+encoded_key = "YWlvX2ZPdXcyNjQ1RTZvQXBtaUpNZHlsSHNnYUhJZ3c="
+AIO_KEY = base64.b64decode(encoded_key)
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -38,6 +40,7 @@ schedule.every().day.at("6:00").do(setDevice1(False))
 schedule.every().day.at("17:00").do(setDevice1(True))
 while True:
     ai_result = person_detector()
+
     if(person_detector()=="Person"):
         print("AI_Output:", ai_result)
         client.publish("ai", ai_result)

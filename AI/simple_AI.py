@@ -30,4 +30,3 @@ def person_detector():
     print(labels[np.argmax(probabilities)])
     return labels[np.argmax(probabilities)]
 
-
