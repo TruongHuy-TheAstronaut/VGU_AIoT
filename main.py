@@ -2,7 +2,7 @@ print("Hello The Brave New World")
 
 import sys
 from Adafruit_IO import MQTTClient
-# from AI.simple_ai import *
+from AI.simple_ai import *
 from IoT.physical import *
 
 AIO_FEED_ID = ["sensor-1", "sensor-2", "sensor-3", "actuator-1", "actuator-2", "vision-detection"]
@@ -40,11 +40,12 @@ client.loop_background() # call loop_background()
 
 while True:
     pass
-    temperature = readTemperature()
-    moisture = readMoisture()
-    print(temperature, moisture)
-    client.publish("sensor-1", temperature/100)
-    client.publish("sensor-2", moisture/100)
+    person_detector()
+    # temperature = readTemperature()
+    # moisture = readMoisture()
+    # print(temperature, moisture)
+    # client.publish("sensor-1", temperature/100)
+    # client.publish("sensor-2", moisture/100)
 
 # #Simple AI Code
 # while True:
