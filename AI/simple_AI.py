@@ -3,13 +3,13 @@ import numpy as np
 from keras.models import load_model
 
 # Load the model
-model = load_model('keras_model.h5')
+model = load_model('AI\keras_model.h5')
 
 # CAMERA can be 0 or 1 based on default camera of your computer.
 camera = cv2.VideoCapture(0)
 
 # Grab the labels from the labels.txt file. This will be used later.
-labels = open('labels.txt', 'r').readlines()
+labels = open('AI\labels.txt', 'r').readlines()
 
 def person_detector():
     # Grab the webcameras image.

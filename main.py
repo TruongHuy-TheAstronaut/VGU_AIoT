@@ -3,8 +3,9 @@
 import sys
 from Adafruit_IO import MQTTClient
 from AI.simple_AI import person_detector
-from rasberry_physical import *
-import schedule
+from IoT.physical import *
+# from rasberry_physical import *
+# import schedule
 import base64
 import time
 AIO_FEED_ID = ["sensor-1", "sensor-2", "actuator-1", "actuator-2", "vision-detection"]
@@ -36,23 +37,37 @@ client.connect()
 client.loop_background()
 
 
-schedule.every().day.at("6:00").do(setDevice1(False))
-schedule.every().day.at("17:00").do(setDevice1(True))
-while True:
+# schedule.every().day.at("6:00").do(setDevice1(False))
+# schedule.every().day.at("17:00").do(setDevice1(True))
+def camera_update():
     ai_result = person_detector()
-
     if(person_detector()=="Person"):
         print("AI_Output:", ai_result)
-        client.publish("ai", ai_result)
+        client.publish("vision-detection", ai_result)
 
         bongden1 = setDevice1(True)
-        client.publish("actuator_1", bongden1)
-
+        print(bongden1)
+        client.publish("actuator-1", bongden1)
+        time.sleep(300)
     else:
         print("AI_Output:", ai_result)
         client.publish("ai", ai_result)
         time.sleep(120)
         bongden1 = setDevice1(False)
-        client.publish("actuator_1", bongden1)
-    time.sleep(3)
-    schedule.run_pending()
+        print(bongden1)
+        client.publish("actuator-1", bongden1)
+
+def auto_pump():
+    humid = readMoisture()
+    if(humid < 55):
+        setDevice2(True)
+        client.publish("actuator-2", 1)
+    else:
+        setDevice2(False)
+        client.publish("actuator-2", 0)
+
+while True:
+    camera_update()
+    auto_pump()
+    time.sleep(60)
+    # schedule.run_pending()
