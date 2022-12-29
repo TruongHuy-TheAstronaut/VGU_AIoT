@@ -1,13 +1,15 @@
 print("Hello The Brave New World")
 
 import sys
+import base64
 from Adafruit_IO import MQTTClient
 # from AI.simple_ai import *
 from IoT.physical import *
 
 AIO_FEED_ID = ["sensor-1", "sensor-2", "sensor-3", "actuator-1", "actuator-2", "vision-detection"]
 AIO_USERNAME = "truonghuy"
-AIO_KEY = "aio_NfpI49RKlhHiqlriMQ0LHSPLwBfn"
+encoded_key = "YWlvX2ZPdXcyNjQ1RTZvQXBtaUpNZHlsSHNnYUhJZ3c="
+AIO_KEY = base64.b64decode(encoded_key)
 
 def connected(client):
     print("Ket noi thanh cong ...")

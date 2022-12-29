@@ -1,13 +1,15 @@
 package com.vgu.iotandroiddashboard;
 
+import static com.vgu.iotandroiddashboard.R.*;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -16,21 +18,38 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.nio.charset.Charset;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
     MQTTHelper mqttHelper;
     TextView txtTemp, txtHumid; // a pointer ?
-    ToggleButton btnLED, btnPUMP;
+    Switch btnLED, btnPUMP;
+    String[] feedIDs = {"sensor-1", "sensor-2", "actuator-1", "actuator-2"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
         startMQTT();
 
-        txtTemp = findViewById(R.id.txtTemperature);    // the pointer point to the object in the XML
-        txtHumid = findViewById(R.id.txtHumidity);      // need to be put after the setContentView() function
-        btnLED = findViewById(R.id.btnLED);
-        btnPUMP = findViewById(R.id.btnPUMP);
+        txtTemp = findViewById(id.txtTemperature);    // the pointer point to the object in the XML
+        txtHumid = findViewById(id.txtHumidity);      // need to be put after the setContentView() function
+        btnLED = findViewById(id.btnLED);
+        btnPUMP = findViewById(id.btnPUMP);
+
+        for(String feedID:feedIDs){
+            okHTTPRequest(feedID);
+        }
+
         btnLED.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -48,6 +67,39 @@ public class MainActivity extends AppCompatActivity {
                     sendDataMQTT("truonghuy/feeds/actuator-2", "1");
                 }else {
                     sendDataMQTT("truonghuy/feeds/actuator-2", "0");
+                }
+            }
+        });
+
+    }
+
+    public void okHTTPRequest(String feedID){
+        OkHttpClient client = new OkHttpClient();
+        String curl = "https://io.adafruit.com/api/v2/truonghuy/feeds/" + feedID;
+        System.out.println(curl);
+        Request request = new Request.Builder()
+                .url(curl)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            String lastValue = "";
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String myResponse = response.body().string();
+                    try {
+                        JSONObject jObject = new JSONObject(myResponse);
+                        lastValue = jObject.getString("last_value");
+                        System.out.println("test1" +" " + lastValue + " " + lastValue.getClass().getName());
+                        sendDataMQTT("truonghuy/feeds/" + feedID, lastValue);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -75,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Lamda instruction or Asynchronous instruction
         mqttHelper.setCallback(new MqttCallbackExtended() {
+
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
 
@@ -128,3 +181,42 @@ TextView txtTemperature;
     txtTemperature = (TextView) findViewById(R.id.txtTemperature);
     txtTemperature.setText("37");
  */
+
+
+//txtTemp.setText("37");
+
+//    public String readJSONData(String inputJSON) throws JSONException {
+//        JSONObject jObject = new JSONObject(inputJSON);
+//        String lastValue = jObject.getString("last_value");
+//
+//        return lastValue;
+//    }
+
+//    final String curl = "https://io.adafruit.com/api/v2/truonghuy/feeds?x-aio-key=aio_CxSu66P5tzhIuOyIOdbLSoZrYQqc";
+//
+//    // Http request
+//    OkHttpClient client = new OkHttpClient();
+//    TextView txtString;
+//    public String ADA_api = "https://reqres.in/api/users/2";
+//
+//    final OkHttpClient client = new OkHttpClient();
+//
+//    String run(String url) throws IOException {
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            return response.body().string();
+//        }
+//    }
+
+//        okHTTPRequest("https://io.adafruit.com/api/v2/truonghuy/feeds/sensor-1");
+//        okHTTPRequest("https://io.adafruit.com/api/v2/truonghuy/feeds/sensor-2");
+//        okHTTPRequest("https://io.adafruit.com/api/v2/truonghuy/feeds/actuator-1");
+//        okHTTPRequest("https://io.adafruit.com/api/v2/truonghuy/feeds/actuator-2");
+
+//    okHTTPRequest("sensor-1");
+//        okHTTPRequest("sensor-2");
+//        okHTTPRequest("actuator-1");
+//        okHTTPRequest("actuator-2");
