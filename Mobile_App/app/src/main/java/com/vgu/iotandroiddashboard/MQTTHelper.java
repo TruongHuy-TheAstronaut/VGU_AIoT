@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 public class MQTTHelper {
     public MqttAndroidClient mqttAndroidClient;
 
-    public final String[] arrayTopics = {"truonghuy/feeds/sensor-1", "truonghuy/feeds/sensor-2", "truonghuy/feeds/actuator-1", "truonghuy/feeds/actuator-2"};
+    public final String[] arrayTopics = {"truonghuy/feeds/sensor-1", "truonghuy/feeds/sensor-2", "truonghuy/feeds/actuator-1", "truonghuy/feeds/actuator-2", "truonghuy/feeds/vision-detection"};
 
     final String clientId = "1234";    // random client ID, must be unique for each client, maybe generate from CPU-ID
     final String username = "truonghuy";

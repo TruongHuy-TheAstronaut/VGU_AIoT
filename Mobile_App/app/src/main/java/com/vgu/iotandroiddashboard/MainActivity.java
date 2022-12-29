@@ -31,7 +31,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     MQTTHelper mqttHelper;
-    TextView txtTemp, txtHumid; // a pointer ?
+    TextView txtTemp, txtHumid, txtCamera; // a pointer ?
     Switch btnLED, btnPUMP;
     String[] feedIDs = {"sensor-1", "sensor-2", "actuator-1", "actuator-2"};
 
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         txtTemp = findViewById(id.txtTemperature);    // the pointer point to the object in the XML
         txtHumid = findViewById(id.txtHumidity);      // need to be put after the setContentView() function
+        txtCamera = findViewById(id.txtCamera);
         btnLED = findViewById(id.btnLED);
         btnPUMP = findViewById(id.btnPUMP);
 
@@ -161,6 +162,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         btnPUMP.setChecked(false);
+                    }
+                }
+                else if(topic.contains("vision-detection")){
+                    if(message.toString().equals("1")){
+                        txtCamera.setText("There is someone nearby");
+                    }
+                    else{
+                        txtCamera.setText("See no body");
                     }
                 }
             }

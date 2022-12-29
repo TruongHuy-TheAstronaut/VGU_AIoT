@@ -3,7 +3,7 @@ print("Hello The Brave New World")
 import sys
 import base64
 from Adafruit_IO import MQTTClient
-# from AI.simple_ai import *
+from AI.simple_AI import *
 from IoT.physical import *
 
 AIO_FEED_ID = ["sensor-1", "sensor-2", "sensor-3", "actuator-1", "actuator-2", "vision-detection"]
@@ -40,6 +40,33 @@ client.on_subscribe = subscribe
 client.connect() # call connect()
 client.loop_background() # call loop_background()
 
+def camera_update():
+    ai_result = person_detector()
+    print(ai_result + "x")
+    if("0" in ai_result):
+        # print("AI_Output:", ai_result)
+        client.publish("vision-detection", 1)
+        setDevice1(True)
+        client.publish("actuator-1", 1)
+        print("co nguoi " + ai_result)
+        # time.sleep(300)
+    else:
+        # print("AI_Output:", ai_result)
+        client.publish("vision-detection", 0)
+        # time.sleep(120)
+        setDevice1(False)
+        client.publish("actuator-1", 0)
+        print("No one " + ai_result)
+
+def auto_pump():
+    humid = readMoisture()
+    if(humid/100 < 55):
+        setDevice2(True)
+        client.publish("actuator-2", 1)
+    else:
+        setDevice2(False)
+        client.publish("actuator-2", 0)
+
 while True:
     pass
     temperature = readTemperature()
@@ -47,6 +74,9 @@ while True:
     print(temperature, moisture)
     client.publish("sensor-1", temperature/100)
     client.publish("sensor-2", moisture/100)
+    camera_update()
+    auto_pump()
+    time.sleep(60)
 
 # #Simple AI Code
 # while True:
@@ -54,3 +84,4 @@ while True:
 #     image_capture()
 #     ai_result = image_detector()
 #     client.publish("vision_detection", ai_result)
+    # schedule.run_pending()
